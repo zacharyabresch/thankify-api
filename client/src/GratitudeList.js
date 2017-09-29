@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
 
 class GratitudeList extends Component {
-	componentDidMount() {
+	constructor(props) {
+		super(props);
+		this.state = { thankifications: [] };
+		console.log('constructing');
+	}
+
+	componentWillMount() {
 		window.fetch('thankifications')
 			.then(response => response.json())
-			.then(json => console.log(json))
+			.then(json => {
+				this.setState({ thankifications: json });
+			})
 			.catch(error => console.log(error));
 	}
+
 	render() {
 		return (
 			<div>
 				<h2>Works!</h2>
-				<ul className="GratitudeList">
-					
+				<ul className="GratitudeList list-group">
+					{this.state.thankifications.map(t => {
+						return <li key={t.id} className="list-group-item">{t.gratitudes.length}</li>
+					})}
 				</ul>
 			</div>
 		);
