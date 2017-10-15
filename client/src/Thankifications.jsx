@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
 
-import GratitudeList from './GratitudeList'
+import ThankificationList from './ThankificationList';
 
-const Thankifications = () => (
-  <div>
-    <h1>Thankifications</h1>
-    <GratitudeList />
-  </div>
-);
+class Thankifications extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { thankifications: [] };
+  }
+
+  componentDidMount() {
+    window.fetch('thankifications')
+      .then(response => response.json())
+      .then(json => this.setState({ thankifications: json }))
+      .catch(error => console.log(error));
+  }
+
+  render() {
+    console.log(this.state);
+    return(
+      <div className="container">
+        <h1>Thankifications</h1>
+        <ThankificationList thankifications={this.state.thankifications} />
+      </div>
+    );
+  }
+}
 
 export default Thankifications
